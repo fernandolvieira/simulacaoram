@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pirâmide de Memória - Prof. Fernando</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f0f2f5; padding: 20px; }
+        .cpu-box { background: #202124; color: #fff; padding: 15px; border-radius: 10px; margin-bottom: 25px; display: inline-block; border: 3px solid #4285f4; }
+        
+        /* Estilização da Pirâmide */
+        .hierarchy { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .level { 
+            color: white; font-weight: bold; cursor: pointer; position: relative; 
+            transition: 0.2s; border: 1px solid rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;
+        }
+        .level:hover { filter: brightness(1.1); transform: scale(1.01); }
+
+        /* Tamanhos proporcionais à capacidade da pirâmide */
+        .reg { width: 150px; height: 40px; background-color: #c0504d; border-radius: 5px 5px 0 0; }
+        .rom { width: 250px; height: 45px; background-color: #9bbb59; }
+        .cache { width: 350px; height: 50px; background-color: #8064a2; }
+        .main { width: 450px; height: 55px; background-color: #4bacc6; }
+        .sec { width: 550px; height: 60px; background-color: #f79646; border-radius: 0 0 5px 5px; }
+
+        .progress { position: absolute; bottom: 0; left: 0; height: 4px; background: white; width: 0%; transition: width 0.05s; }
+        #status-msg { margin-top: 20px; font-weight: bold; font-size: 1.2rem; min-height: 1.5rem; }
+        .stats { color: #555; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <h2>Desafio da Pirâmide de Memória</h2>
+    <div class="cpu-box">
+        CPU diz: <span id="target" style="color: #fb0;">LIGANDO SISTEMA...</span>
+    </div>
+
+    <div class="hierarchy">
+        <div class="level reg" onclick="fetch('Registradores', 50)">Registradores<div id="p-Registradores" class="progress"></div></div>
+        <div class="level rom" onclick="fetch('Memória ROM', 400)">Memória ROM/EPROM<div id="p-Memória ROM" class="progress"></div></div>
+        <div class="level cache" onclick="fetch('Memória Cache', 800)">Memória Cache<div id="p-Memória Cache" class="progress"></div></div>
+        <div class="level main" onclick="fetch('Memória Principal', 2000)">Memória Principal (RAM)<div id="p-Memória Principal" class="progress"></div></div>
+        <div class="level sec" onclick="fetch('Memória Secundária', 6000)">Memória Secundária (SSD/HD)<div id="p-Memória Secundária" class="progress"></div></div>
+    </div>
+
+    <div id="status-msg">Clique na memória correta para iniciar!</div>
+    <div class="stats">Latência acumulada: <span id="total-time">0</span>ms</div>
+
+    <script>
+        let waitingFor = "Memória ROM";
+        let totalTime = 0;
+        let busy = false;
+
+        function fetch(type, time) {
+            if(busy) return;
+            if(type !== waitingFor) {
+                document.getElementById('status-msg').innerText = `❌ Erro! O dado não está no(a) ${type}. Tente outro nível.`;
+                document.getElementById('status-msg').style.color = "red";
+                return;
+            }
+
+            busy = true;
+            let start = 0;
+            const bar = document.getElementById(`p-${type}`);
+            
+            const interval = setInterval(() => {
+                start += 100;
+                bar.style.width = (start/time)*100 + "%";
+                if(start >= time) {
+                    clearInterval(interval);
+                    complete(type, time);
+                }
+            }, 100);
+        }
+
+        function complete(type, time) {
+            busy = false;
+            totalTime += time;
+            document.getElementById('total-time').innerText = totalTime;
+            document.getElementById(`p-${type}`).style.width = "0%";
+            
+            const msg = document.getElementById('status-msg');
+            msg.style.color = "green";
+
+            if(type === "Memória ROM") {
+                msg.innerText = "✅ BIOS carregada! Agora abra o navegador (RAM).";
+                waitingFor = "Memória Principal";
+                document.getElementById('target').innerText = "ABRIR NAVEGADOR";
+            } else if(type === "Memória Principal") {
+                msg.innerText = "✅ Navegador na RAM! Agora carregue o vídeo do YouTube (Cache).";
+                waitingFor = "Memória Cache";
+                document.getElementById('target').innerText = "CARREGAR VÍDEO";
+            } else if(type === "Memória Cache") {
+                msg.innerText = "✅ Vídeo no Cache! Agora faça o cálculo matemático (Registradores).";
+                waitingFor = "Registradores";
+                document.getElementById('target').innerText = "SOMAR 2+2";
+            } else if(type === "Registradores") {
+                msg.innerText = "✅ Cálculo feito! Agora salve o print da tela (Secundária).";
+                waitingFor = "Memória Secundária";
+                document.getElementById('target').innerText = "SALVAR ARQUIVO";
+            } else {
+                msg.innerText = "🎉 Ciclo Completo! O sistema está rodando perfeitamente.";
+                document.getElementById('target').innerText = "SISTEMA OK";
+            }
+        }
+    </script>
+</body>
+</html>
