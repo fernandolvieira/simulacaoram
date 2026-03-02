@@ -3,106 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pirâmide de Memória - Prof. Fernando</title>
+    <title>Desafio de Hardware - Prof. Fernando</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f0f2f5; padding: 20px; }
-        .cpu-box { background: #202124; color: #fff; padding: 15px; border-radius: 10px; margin-bottom: 25px; display: inline-block; border: 3px solid #4285f4; }
-        
-        /* Estilização da Pirâmide */
-        .hierarchy { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .level { 
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background: #eef2f3; padding: 20px; color: #333; }
+        .cpu-card { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; margin-bottom: 30px; display: inline-block; border: 4px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        #mission-title { font-size: 1.4rem; font-weight: bold; display: block; margin-bottom: 10px; color: #fff; }
+        #mission-desc { font-size: 1.1rem; color: #00ff00; border-top: 1px solid #333; pt: 10px; }
+
+        .pyramid { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .step { 
             color: white; font-weight: bold; cursor: pointer; position: relative; 
-            transition: 0.2s; border: 1px solid rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-transform: uppercase; letter-spacing: 1px;
         }
-        .level:hover { filter: brightness(1.1); transform: scale(1.01); }
+        .step:hover { filter: brightness(1.2); transform: translateY(-2px); }
+        
+        /* Cores fiéis à sua imagem */
+        .s1 { width: 180px; height: 45px; background: #c0504d; border-radius: 8px 8px 0 0; }
+        .s2 { width: 280px; height: 50px; background: #9bbb59; }
+        .s3 { width: 380px; height: 55px; background: #8064a2; }
+        .s4 { width: 480px; height: 60px; background: #4bacc6; }
+        .s5 { width: 580px; height: 65px; background: #f79646; border-radius: 0 0 8px 8px; }
 
-        /* Tamanhos proporcionais à capacidade da pirâmide */
-        .reg { width: 150px; height: 40px; background-color: #c0504d; border-radius: 5px 5px 0 0; }
-        .rom { width: 250px; height: 45px; background-color: #9bbb59; }
-        .cache { width: 350px; height: 50px; background-color: #8064a2; }
-        .main { width: 450px; height: 55px; background-color: #4bacc6; }
-        .sec { width: 550px; height: 60px; background-color: #f79646; border-radius: 0 0 5px 5px; }
-
-        .progress { position: absolute; bottom: 0; left: 0; height: 4px; background: white; width: 0%; transition: width 0.05s; }
-        #status-msg { margin-top: 20px; font-weight: bold; font-size: 1.2rem; min-height: 1.5rem; }
-        .stats { color: #555; margin-top: 5px; }
+        .loading { position: absolute; bottom: 0; left: 0; height: 6px; background: rgba(255,255,255,0.7); width: 0%; }
+        #feedback { margin-top: 25px; font-size: 1.3rem; font-weight: bold; min-height: 2rem; }
+        button { margin-top: 20px; padding: 12px 25px; font-size: 1rem; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #555; }
     </style>
 </head>
 <body>
 
-    <h2>Desafio da Pirâmide de Memória</h2>
-    <div class="cpu-box">
-        CPU diz: <span id="target" style="color: #fb0;">LIGANDO SISTEMA...</span>
+    <h2>Simulador: Hierarquia de Memória</h2>
+    
+    <div class="cpu-card">
+        <span id="mission-title">MISSÃO DO SISTEMA:</span>
+        <div id="mission-desc">Carregando...</div>
     </div>
 
-    <div class="hierarchy">
-        <div class="level reg" onclick="fetch('Registradores', 50)">Registradores<div id="p-Registradores" class="progress"></div></div>
-        <div class="level rom" onclick="fetch('Memória ROM', 400)">Memória ROM/EPROM<div id="p-Memória ROM" class="progress"></div></div>
-        <div class="level cache" onclick="fetch('Memória Cache', 800)">Memória Cache<div id="p-Memória Cache" class="progress"></div></div>
-        <div class="level main" onclick="fetch('Memória Principal', 2000)">Memória Principal (RAM)<div id="p-Memória Principal" class="progress"></div></div>
-        <div class="level sec" onclick="fetch('Memória Secundária', 6000)">Memória Secundária (SSD/HD)<div id="p-Memória Secundária" class="progress"></div></div>
+    <div class="pyramid">
+        <div class="step s1" onclick="process('Registradores', 50)">Registradores<div id="l-Registradores" class="loading"></div></div>
+        <div class="step s2" onclick="process('ROM', 400)">Memória ROM / EPROM<div id="l-ROM" class="loading"></div></div>
+        <div class="step s3" onclick="process('Cache', 800)">Memória Cache<div id="l-Cache" class="loading"></div></div>
+        <div class="step s4" onclick="process('Principal', 2000)">Memória Principal<div id="l-Principal" class="loading"></div></div>
+        <div class="step s5" onclick="process('Secundária', 6000)">Memória Secundária<div id="l-Secundária" class="loading"></div></div>
     </div>
 
-    <div id="status-msg">Clique na memória correta para iniciar!</div>
-    <div class="stats">Latência acumulada: <span id="total-time">0</span>ms</div>
+    <div id="feedback"></div>
+    <button onclick="newMission()">Nova Missão Aleatória</button>
 
     <script>
-        let waitingFor = "Memória ROM";
-        let totalTime = 0;
-        let busy = false;
+        const missions = [
+            { desc: "O computador foi ligado agora. Onde estão as instruções iniciais de boot?", target: "ROM" },
+            { desc: "Você acabou de abrir o Excel. Onde os dados desse programa 'aberto' residem?", target: "Principal" },
+            { desc: "O processador precisa somar dois números binários agora. Onde ele coloca esses números?", target: "Registradores" },
+            { desc: "Você clicou em 'Salvar Como' para guardar seu TCC. Para onde o arquivo vai?", target: "Secundária" },
+            { desc: "Um vídeo está rodando e o processador precisa acessar repetidamente os mesmos frames. Onde ele busca rápido?", target: "Cache" },
+            { desc: "O sistema precisa verificar o hardware conectado antes de carregar o Windows. Onde está esse código?", target: "ROM" },
+            { desc: "A memória RAM encheu e o computador está lento. Onde ele está guardando os arquivos instalados?", target: "Secundária" }
+        ];
 
-        function fetch(type, time) {
-            if(busy) return;
-            if(type !== waitingFor) {
-                document.getElementById('status-msg').innerText = `❌ Erro! O dado não está no(a) ${type}. Tente outro nível.`;
-                document.getElementById('status-msg').style.color = "red";
+        let currentMission = {};
+        let isBusy = false;
+
+        function newMission() {
+            if(isBusy) return;
+            currentMission = missions[Math.floor(Math.random() * missions.length)];
+            document.getElementById('mission-desc').innerText = currentMission.desc;
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('feedback').style.color = "#333";
+        }
+
+        function process(type, time) {
+            if(isBusy || !currentMission.target) return;
+
+            if(type !== currentMission.target) {
+                document.getElementById('feedback').innerText = `❌ Incorreto! O dado não está na ${type}. Pense na função dessa memória.`;
+                document.getElementById('feedback').style.color = "#d32f2f";
                 return;
             }
 
-            busy = true;
+            isBusy = true;
             let start = 0;
-            const bar = document.getElementById(`p-${type}`);
-            
+            const bar = document.getElementById(`l-${type}`);
+            document.getElementById('feedback').innerText = `Acessando ${type}...`;
+            document.getElementById('feedback').style.color = "#1976d2";
+
             const interval = setInterval(() => {
                 start += 100;
                 bar.style.width = (start/time)*100 + "%";
                 if(start >= time) {
                     clearInterval(interval);
-                    complete(type, time);
+                    bar.style.width = "0%";
+                    isBusy = false;
+                    document.getElementById('feedback').innerText = "✅ Perfeito! Missão cumprida com sucesso.";
+                    document.getElementById('feedback').style.color = "#388e3c";
                 }
             }, 100);
         }
 
-        function complete(type, time) {
-            busy = false;
-            totalTime += time;
-            document.getElementById('total-time').innerText = totalTime;
-            document.getElementById(`p-${type}`).style.width = "0%";
-            
-            const msg = document.getElementById('status-msg');
-            msg.style.color = "green";
-
-            if(type === "Memória ROM") {
-                msg.innerText = "✅ BIOS carregada! Agora abra o navegador (RAM).";
-                waitingFor = "Memória Principal";
-                document.getElementById('target').innerText = "ABRIR NAVEGADOR";
-            } else if(type === "Memória Principal") {
-                msg.innerText = "✅ Navegador na RAM! Agora carregue o vídeo do YouTube (Cache).";
-                waitingFor = "Memória Cache";
-                document.getElementById('target').innerText = "CARREGAR VÍDEO";
-            } else if(type === "Memória Cache") {
-                msg.innerText = "✅ Vídeo no Cache! Agora faça o cálculo matemático (Registradores).";
-                waitingFor = "Registradores";
-                document.getElementById('target').innerText = "SOMAR 2+2";
-            } else if(type === "Registradores") {
-                msg.innerText = "✅ Cálculo feito! Agora salve o print da tela (Secundária).";
-                waitingFor = "Memória Secundária";
-                document.getElementById('target').innerText = "SALVAR ARQUIVO";
-            } else {
-                msg.innerText = "🎉 Ciclo Completo! O sistema está rodando perfeitamente.";
-                document.getElementById('target').innerText = "SISTEMA OK";
-            }
-        }
+        window.onload = newMission;
     </script>
-</body>
+</b
+    ody>
 </html>
