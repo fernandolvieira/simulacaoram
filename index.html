@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafio de Hardware - Prof. Fernando</title>
+    <title>Desafio Hardware - Prof. Fernando</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; text-align: center; background: #eef2f3; padding: 20px; color: #333; }
-        .cpu-card { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; margin-bottom: 30px; display: inline-block; border: 4px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        #mission-title { font-size: 1.4rem; font-weight: bold; display: block; margin-bottom: 10px; color: #fff; }
-        #mission-desc { font-size: 1.1rem; color: #00ff00; border-top: 1px solid #333; pt: 10px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; background: #eef2f3; padding: 20px; color: #333; }
+        .cpu-card { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; margin-bottom: 30px; display: inline-block; border: 4px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2); width: 80%; max-width: 600px; }
+        #mission-title { font-size: 1.1rem; font-weight: bold; display: block; margin-bottom: 10px; color: #888; text-transform: uppercase; }
+        #mission-desc { font-size: 1.2rem; color: #00ff00; line-height: 1.4; }
 
-        .pyramid { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .pyramid { display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .step { 
             color: white; font-weight: bold; cursor: pointer; position: relative; 
-            transition: 0.3s; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.2s; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-transform: uppercase; font-size: 0.9rem;
         }
-        .step:hover { filter: brightness(1.2); transform: translateY(-2px); }
+        .step:hover { filter: brightness(1.2); transform: scale(1.02); }
         
-        /* Cores fiéis à sua imagem */
-        .s1 { width: 180px; height: 45px; background: #c0504d; border-radius: 8px 8px 0 0; }
-        .s2 { width: 280px; height: 50px; background: #9bbb59; }
-        .s3 { width: 380px; height: 55px; background: #8064a2; }
-        .s4 { width: 480px; height: 60px; background: #4bacc6; }
-        .s5 { width: 580px; height: 65px; background: #f79646; border-radius: 0 0 8px 8px; }
+        .s1 { width: 180px; height: 40px; background: #c0504d; border-radius: 10px 10px 0 0; }
+        .s2 { width: 280px; height: 45px; background: #9bbb59; }
+        .s3 { width: 380px; height: 50px; background: #8064a2; }
+        .s4 { width: 480px; height: 55px; background: #4bacc6; }
+        .s5 { width: 580px; height: 60px; background: #f79646; border-radius: 0 0 10px 10px; }
 
-        .loading { position: absolute; bottom: 0; left: 0; height: 6px; background: rgba(255,255,255,0.7); width: 0%; }
-        #feedback { margin-top: 25px; font-size: 1.3rem; font-weight: bold; min-height: 2rem; }
-        button { margin-top: 20px; padding: 12px 25px; font-size: 1rem; cursor: pointer; background: #333; color: white; border: none; border-radius: 5px; }
-        button:hover { background: #555; }
+        .loading { position: absolute; bottom: 0; left: 0; height: 4px; background: rgba(255,255,255,0.8); width: 0%; }
+        #feedback { margin-top: 25px; font-size: 1.2rem; font-weight: bold; min-height: 2rem; }
+        .counter { font-size: 0.9rem; margin-top: 10px; color: #666; }
+        button { margin-top: 20px; padding: 12px 25px; font-size: 1rem; cursor: pointer; background: #2c3e50; color: white; border: none; border-radius: 5px; font-weight: bold; }
+        button:hover { background: #34495e; }
     </style>
 </head>
 <body>
 
-    <h2>Simulador: Hierarquia de Memória</h2>
+    <h2>Laboratório de Hierarquia de Memória</h2>
     
     <div class="cpu-card">
-        <span id="mission-title">MISSÃO DO SISTEMA:</span>
-        <div id="mission-desc">Carregando...</div>
+        <span id="mission-title">Solicitação da CPU:</span>
+        <div id="mission-desc">Aguardando início...</div>
     </div>
 
     <div class="pyramid">
@@ -49,35 +49,60 @@
     </div>
 
     <div id="feedback"></div>
-    <button onclick="newMission()">Nova Missão Aleatória</button>
+    <div class="counter">Missões resolvidas: <span id="count">0</span></div>
+    <button onclick="newMission()">Gerar Nova Tarefa</button>
 
     <script>
         const missions = [
-            { desc: "O computador foi ligado agora. Onde estão as instruções iniciais de boot?", target: "ROM" },
-            { desc: "Você acabou de abrir o Excel. Onde os dados desse programa 'aberto' residem?", target: "Principal" },
-            { desc: "O processador precisa somar dois números binários agora. Onde ele coloca esses números?", target: "Registradores" },
-            { desc: "Você clicou em 'Salvar Como' para guardar seu TCC. Para onde o arquivo vai?", target: "Secundária" },
-            { desc: "Um vídeo está rodando e o processador precisa acessar repetidamente os mesmos frames. Onde ele busca rápido?", target: "Cache" },
-            { desc: "O sistema precisa verificar o hardware conectado antes de carregar o Windows. Onde está esse código?", target: "ROM" },
-            { desc: "A memória RAM encheu e o computador está lento. Onde ele está guardando os arquivos instalados?", target: "Secundária" }
+            // REGISTRADORES
+            { desc: "A CPU precisa comparar se o número A é maior que o número B AGORA. Onde esses dois números estão fisicamente durante a comparação?", target: "Registradores" },
+            { desc: "Um ciclo de clock acabou de mover um dado da ULA para ser armazenado por um nanosegundo. Onde ele parou?", target: "Registradores" },
+            { desc: "Qual memória armazena o endereço da próxima instrução que a CPU vai executar (Program Counter)?", target: "Registradores" },
+            
+            // ROM
+            { desc: "Você apertou o botão Power. Onde estão as rotinas de teste de hardware (POST) que verificam se o teclado e a RAM estão funcionando?", target: "ROM" },
+            { desc: "Onde fica gravado o firmware da placa-mãe que nunca se apaga mesmo sem energia?", target: "ROM" },
+            { desc: "Onde o processador busca as primeiras instruções para saber de qual disco ele deve carregar o Windows?", target: "ROM" },
+
+            // CACHE
+            { desc: "O processador está repetindo um 'loop' de código 1 milhão de vezes. Para não ir à RAM toda hora, onde ele guarda esse pequeno trecho de código?", target: "Cache" },
+            { desc: "Qual memória tenta prever quais dados serão usados em breve e os busca antecipadamente para evitar gargalos?", target: "Cache" },
+            { desc: "Em um processador multi-core, onde os núcleos buscam dados compartilhados de forma ultra-rápida (L3)?", target: "Cache" },
+
+            // PRINCIPAL (RAM)
+            { desc: "Você abriu 20 abas no navegador ao mesmo tempo. Onde todos esses sites abertos estão ocupando espaço agora?", target: "Principal" },
+            { desc: "Você está jogando. O mapa do jogo foi carregado do SSD para onde, para que o processador possa acessá-lo rapidamente enquanto você corre?", target: "Principal" },
+            { desc: "Ao minimizar um programa, ele continua 'vivo' e pronto para voltar instantaneamente. Onde ele está guardado?", target: "Principal" },
+
+            // SECUNDÁRIA
+            { desc: "Você desligou o PC por uma semana. Ao ligar, seus arquivos de fotos ainda estão lá. Onde eles estavam protegidos?", target: "Secundária" },
+            { desc: "A instalação de um jogo de 100GB ocupa espaço em qual nível da pirâmide?", target: "Secundária" },
+            { desc: "Você formatou o computador e vai reinstalar o Windows. De onde os dados do instalador são lidos?", target: "Secundária" }
         ];
 
         let currentMission = {};
         let isBusy = false;
+        let solved = 0;
 
         function newMission() {
             if(isBusy) return;
-            currentMission = missions[Math.floor(Math.random() * missions.length)];
+            let next;
+            do {
+                next = missions[Math.floor(Math.random() * missions.length)];
+            } while (next === currentMission);
+            
+            currentMission = next;
             document.getElementById('mission-desc').innerText = currentMission.desc;
             document.getElementById('feedback').innerText = "";
             document.getElementById('feedback').style.color = "#333";
+            document.querySelectorAll('.loading').forEach(b => b.style.width = "0%");
         }
 
         function process(type, time) {
             if(isBusy || !currentMission.target) return;
 
             if(type !== currentMission.target) {
-                document.getElementById('feedback').innerText = `❌ Incorreto! O dado não está na ${type}. Pense na função dessa memória.`;
+                document.getElementById('feedback').innerText = `❌ Incorreto! A ${type} não é usada para essa finalidade específica.`;
                 document.getElementById('feedback').style.color = "#d32f2f";
                 return;
             }
@@ -86,23 +111,23 @@
             let start = 0;
             const bar = document.getElementById(`l-${type}`);
             document.getElementById('feedback').innerText = `Acessando ${type}...`;
-            document.getElementById('feedback').style.color = "#1976d2";
+            document.getElementById('feedback').style.color = "#2980b9";
 
             const interval = setInterval(() => {
                 start += 100;
                 bar.style.width = (start/time)*100 + "%";
                 if(start >= time) {
                     clearInterval(interval);
-                    bar.style.width = "0%";
                     isBusy = false;
-                    document.getElementById('feedback').innerText = "✅ Perfeito! Missão cumprida com sucesso.";
-                    document.getElementById('feedback').style.color = "#388e3c";
+                    solved++;
+                    document.getElementById('count').innerText = solved;
+                    document.getElementById('feedback').innerText = "✅ Correto! Você compreendeu a função deste nível.";
+                    document.getElementById('feedback').style.color = "#27ae60";
                 }
             }, 100);
         }
 
         window.onload = newMission;
     </script>
-</b
-    ody>
+</body>
 </html>
