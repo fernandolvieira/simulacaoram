@@ -3,98 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafio Hardware - Prof. Fernando</title>
+    <title>Desafio Hardware Master - Prof. Fernando</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; background: #eef2f3; padding: 20px; color: #333; }
-        .cpu-card { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; margin-bottom: 30px; display: inline-block; border: 4px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2); width: 80%; max-width: 600px; }
-        #mission-title { font-size: 1.1rem; font-weight: bold; display: block; margin-bottom: 10px; color: #888; text-transform: uppercase; }
-        #mission-desc { font-size: 1.2rem; color: #00ff00; line-height: 1.4; }
+        .cpu-card { background: #1a1a1a; color: #00ff00; padding: 25px; border-radius: 15px; margin-bottom: 30px; display: inline-block; border: 4px solid #333; box-shadow: 0 10px 20px rgba(0,0,0,0.2); width: 85%; max-width: 700px; }
+        #mission-title { font-size: 1rem; font-weight: bold; display: block; margin-bottom: 10px; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+        #mission-desc { font-size: 1.25rem; color: #00ff00; line-height: 1.5; font-family: 'Courier New', Courier, monospace; }
 
-        .pyramid { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .pyramid { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 20px; }
         .step { 
             color: white; font-weight: bold; cursor: pointer; position: relative; 
             transition: 0.2s; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-transform: uppercase; font-size: 0.9rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-transform: uppercase; font-size: 0.85rem;
         }
-        .step:hover { filter: brightness(1.2); transform: scale(1.02); }
+        .step:hover { filter: brightness(1.2); transform: scale(1.03); }
         
-        .s1 { width: 180px; height: 40px; background: #c0504d; border-radius: 10px 10px 0 0; }
-        .s2 { width: 280px; height: 45px; background: #9bbb59; }
-        .s3 { width: 380px; height: 50px; background: #8064a2; }
-        .s4 { width: 480px; height: 55px; background: #4bacc6; }
-        .s5 { width: 580px; height: 60px; background: #f79646; border-radius: 0 0 10px 10px; }
+        .s1 { width: 200px; height: 40px; background: #c0504d; border-radius: 12px 12px 0 0; }
+        .s2 { width: 300px; height: 45px; background: #9bbb59; }
+        .s3 { width: 400px; height: 50px; background: #8064a2; }
+        .s4 { width: 500px; height: 55px; background: #4bacc6; }
+        .s5 { width: 600px; height: 60px; background: #f79646; border-radius: 0 0 12px 12px; }
 
-        .loading { position: absolute; bottom: 0; left: 0; height: 4px; background: rgba(255,255,255,0.8); width: 0%; }
-        #feedback { margin-top: 25px; font-size: 1.2rem; font-weight: bold; min-height: 2rem; }
-        .counter { font-size: 0.9rem; margin-top: 10px; color: #666; }
-        button { margin-top: 20px; padding: 12px 25px; font-size: 1rem; cursor: pointer; background: #2c3e50; color: white; border: none; border-radius: 5px; font-weight: bold; }
-        button:hover { background: #34495e; }
+        .loading { position: absolute; bottom: 0; left: 0; height: 5px; background: rgba(255,255,255,0.9); width: 0%; }
+        #feedback { margin-top: 25px; font-size: 1.2rem; font-weight: bold; min-height: 2.5rem; padding: 10px; border-radius: 8px; }
+        .counter-box { margin-top: 15px; font-size: 1rem; font-weight: bold; color: #444; }
+        button { margin-top: 25px; padding: 15px 35px; font-size: 1.1rem; cursor: pointer; background: #2c3e50; color: white; border: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #1a252f; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
-    <h2>Laboratório de Hierarquia de Memória</h2>
+    <h2>Laboratório Avançado: Hierarquia de Memória</h2>
     
     <div class="cpu-card">
-        <span id="mission-title">Solicitação da CPU:</span>
-        <div id="mission-desc">Aguardando início...</div>
+        <span id="mission-title">Requisição de Hardware:</span>
+        <div id="mission-desc">Clique no botão abaixo para receber sua primeira tarefa.</div>
     </div>
 
     <div class="pyramid">
         <div class="step s1" onclick="process('Registradores', 50)">Registradores<div id="l-Registradores" class="loading"></div></div>
-        <div class="step s2" onclick="process('ROM', 400)">Memória ROM / EPROM<div id="l-ROM" class="loading"></div></div>
-        <div class="step s3" onclick="process('Cache', 800)">Memória Cache<div id="l-Cache" class="loading"></div></div>
-        <div class="step s4" onclick="process('Principal', 2000)">Memória Principal<div id="l-Principal" class="loading"></div></div>
-        <div class="step s5" onclick="process('Secundária', 6000)">Memória Secundária<div id="l-Secundária" class="loading"></div></div>
+        <div class="step s2" onclick="process('ROM', 350)">Memória ROM / EPROM<div id="l-ROM" class="loading"></div></div>
+        <div class="step s3" onclick="process('Cache', 700)">Memória Cache<div id="l-Cache" class="loading"></div></div>
+        <div class="step s4" onclick="process('Principal', 1800)">Memória Principal<div id="l-Principal" class="loading"></div></div>
+        <div class="step s5" onclick="process('Secundária', 5000)">Memória Secundária<div id="l-Secundária" class="loading"></div></div>
     </div>
 
     <div id="feedback"></div>
-    <div class="counter">Missões resolvidas: <span id="count">0</span></div>
-    <button onclick="newMission()">Gerar Nova Tarefa</button>
+    <div class="counter-box">✅ Missões Concluídas: <span id="count">0</span> / 50</div>
+    <button onclick="newMission()">Próxima Missão</button>
 
     <script>
         const missions = [
-            // REGISTRADORES
-            { desc: "A CPU precisa comparar se o número A é maior que o número B AGORA. Onde esses dois números estão fisicamente durante a comparação?", target: "Registradores" },
-            { desc: "Um ciclo de clock acabou de mover um dado da ULA para ser armazenado por um nanosegundo. Onde ele parou?", target: "Registradores" },
-            { desc: "Qual memória armazena o endereço da próxima instrução que a CPU vai executar (Program Counter)?", target: "Registradores" },
-            
-            // ROM
-            { desc: "Você apertou o botão Power. Onde estão as rotinas de teste de hardware (POST) que verificam se o teclado e a RAM estão funcionando?", target: "ROM" },
-            { desc: "Onde fica gravado o firmware da placa-mãe que nunca se apaga mesmo sem energia?", target: "ROM" },
-            { desc: "Onde o processador busca as primeiras instruções para saber de qual disco ele deve carregar o Windows?", target: "ROM" },
+            // REGISTRADORES (10)
+            { desc: "A CPU precisa do resultado imediato da operação 'AND' entre dois bits. Onde esse bit final é guardado?", target: "Registradores" },
+            { desc: "Qual local armazena o endereço da instrução que está sendo decodificada neste exato ciclo?", target: "Registradores" },
+            { desc: "Onde fica o 'Flag' que indica se o resultado de uma conta deu zero ou negativo?", target: "Registradores" },
+            { desc: "Para somar 10 + 20, o 10 deve estar em um local interno da CPU chamado...", target: "Registradores" },
+            { desc: "Onde o Stack Pointer (Ponteiro de Pilha) fica armazenado para acesso ultrarrápido?", target: "Registradores" },
+            { desc: "Qual memória opera na mesma frequência exata dos ciclos de clock do processador?", target: "Registradores" },
+            { desc: "Onde a CPU guarda temporariamente o dado que acabou de chegar do barramento de dados?", target: "Registradores" },
+            { desc: "Em Assembly, comandos como 'MOV EAX, 1' movem o valor 1 para qual tipo de memória?", target: "Registradores" },
+            { desc: "Qual é a memória com a menor capacidade de armazenamento de todo o computador?", target: "Registradores" },
+            { desc: "Onde ficam armazenados os operandos antes de entrarem na ULA (Unidade Lógica e Aritmética)?", target: "Registradores" },
 
-            // CACHE
-            { desc: "O processador está repetindo um 'loop' de código 1 milhão de vezes. Para não ir à RAM toda hora, onde ele guarda esse pequeno trecho de código?", target: "Cache" },
-            { desc: "Qual memória tenta prever quais dados serão usados em breve e os busca antecipadamente para evitar gargalos?", target: "Cache" },
-            { desc: "Em um processador multi-core, onde os núcleos buscam dados compartilhados de forma ultra-rápida (L3)?", target: "Cache" },
+            // ROM (10)
+            { desc: "Onde fica o software que faz a contagem da memória RAM assim que você liga o PC?", target: "ROM" },
+            { desc: "Qual memória contém as instruções de 'Bootstrap' para carregar o SO?", target: "ROM" },
+            { desc: "Se você remover a bateria da placa-mãe, qual memória mantém o código básico de fábrica?", target: "ROM" },
+            { desc: "Onde fica gravado o firmware que controla o comportamento inicial do hardware?", target: "ROM" },
+            { desc: "Qual memória é geralmente protegida contra escrita para evitar danos ao sistema de boot?", target: "ROM" },
+            { desc: "Onde o fabricante da placa-mãe grava o logotipo que aparece ao ligar o computador?", target: "ROM" },
+            { desc: "Qual memória é considerada 'não-volátil' e de 'apenas leitura' em condições normais?", target: "ROM" },
+            { desc: "Onde estão as tabelas de interrupção básicas usadas durante a inicialização?", target: "ROM" },
+            { desc: "Em qual componente fica o software que permite configurar a ordem de boot (Setup)?", target: "ROM" },
+            { desc: "Onde o microcódigo inicial de reconhecimento de CPU reside?", target: "ROM" },
 
-            // PRINCIPAL (RAM)
-            { desc: "Você abriu 20 abas no navegador ao mesmo tempo. Onde todos esses sites abertos estão ocupando espaço agora?", target: "Principal" },
-            { desc: "Você está jogando. O mapa do jogo foi carregado do SSD para onde, para que o processador possa acessá-lo rapidamente enquanto você corre?", target: "Principal" },
-            { desc: "Ao minimizar um programa, ele continua 'vivo' e pronto para voltar instantaneamente. Onde ele está guardado?", target: "Principal" },
+            // CACHE (10)
+            { desc: "O processador está lendo os mesmos dados de um banco de dados repetidamente. Onde ele os 'esconde' para ganhar tempo?", target: "Cache" },
+            { desc: "Qual memória utiliza a tecnologia SRAM para ser mais rápida que a RAM comum?", target: "Cache" },
+            { desc: "Onde o processador guarda as instruções de um 'loop for' que está sendo executado?", target: "Cache" },
+            { desc: "Qual nível de memória é dividido em L1, L2 e L3?", target: "Cache" },
+            { desc: "Para reduzir o 'Memory Wall' (atraso da RAM), a CPU busca dados primeiro na...", target: "Cache" },
+            { desc: "Onde ficam as cópias de dados da RAM que a CPU acredita que usará nos próximos ciclos?", target: "Cache" },
+            { desc: "Qual memória é integrada diretamente no chip do processador para evitar latência de barramento externo?", target: "Cache" },
+            { desc: "Onde ocorre o fenômeno 'Cache Hit' quando o dado é encontrado rapidamente?", target: "Cache" },
+            { desc: "Qual memória tem o objetivo de equilibrar a velocidade absurda da CPU com a lentidão da RAM?", target: "Cache" },
+            { desc: "Onde são armazenadas as linhas de dados mais recentes trazidas da memória principal?", target: "Cache" },
 
-            // SECUNDÁRIA
-            { desc: "Você desligou o PC por uma semana. Ao ligar, seus arquivos de fotos ainda estão lá. Onde eles estavam protegidos?", target: "Secundária" },
-            { desc: "A instalação de um jogo de 100GB ocupa espaço em qual nível da pirâmide?", target: "Secundária" },
-            { desc: "Você formatou o computador e vai reinstalar o Windows. De onde os dados do instalador são lidos?", target: "Secundária" }
+            // PRINCIPAL (RAM) (10)
+            { desc: "Você abriu um PDF de 500 páginas. Onde esse conteúdo está 'carregado' para você ler?", target: "Principal" },
+            { desc: "Qual memória é volátil e perde tudo se o prédio ficar sem energia?", target: "Principal" },
+            { desc: "Ao instalar mais 'pentes' de memória no PC, você está aumentando a...", target: "Principal" },
+            { desc: "Onde o Windows 'descompacta' os drivers que estão em uso no momento?", target: "Principal" },
+            { desc: "Qual memória utiliza capacitores que precisam de 'refresh' constante para não perder os dados?", target: "Principal" },
+            { desc: "Onde ficam as variáveis de um programa em C ou Python enquanto o código roda?", target: "Principal" },
+            { desc: "Se você tem 16GB deste componente, pode abrir mais programas simultâneos. Estamos falando da...", target: "Principal" },
+            { desc: "Para onde o Sistema Operacional é copiado após o boot para poder ser executado?", target: "Principal" },
+            { desc: "Qual memória serve de ponte principal entre o armazenamento de massa e o processador?", target: "Principal" },
+            { desc: "Onde o buffer de vídeo é armazenado antes de ser enviado para o monitor?", target: "Principal" },
+
+            // SECUNDÁRIA (10)
+            { desc: "Onde o Windows fica guardado quando o computador está desligado?", target: "Secundária" },
+            { desc: "Você baixou um instalador de 5GB da internet. Onde ele foi gravado?", target: "Secundária" },
+            { desc: "Qual memória tem a maior capacidade de armazenamento e o menor custo por Gigabyte?", target: "Secundária" },
+            { desc: "Onde ficam seus arquivos pessoais (Documentos, Imagens, Vídeos) a longo prazo?", target: "Secundária" },
+            { desc: "Qual nível de memória engloba dispositivos como HDDs, SSDs e NVMe?", target: "Secundária" },
+            { desc: "Onde o computador busca os dados se a memória RAM acabar (Memória Virtual/Swap)?", target: "Secundária" },
+            { desc: "Qual memória mantém os dados gravados magneticamente ou em chips flash sem precisar de energia?", target: "Secundária" },
+            { desc: "Onde um servidor de arquivos guarda os backups dos usuários da rede?", target: "Secundária" },
+            { desc: "Qual é o nível de memória mais lento para leitura e escrita na pirâmide?", target: "Secundária" },
+            { desc: "Para onde o comando 'Salvar' (Ctrl+S) envia as informações do seu documento?", target: "Secundária" }
         ];
 
         let currentMission = {};
         let isBusy = false;
         let solved = 0;
+        let usedMissions = [];
 
         function newMission() {
             if(isBusy) return;
-            let next;
+            if(usedMissions.length === missions.length) {
+                document.getElementById('mission-desc').innerText = "🏆 PARABÉNS! Você dominou todos os níveis da hierarquia!";
+                return;
+            }
+
+            let randomIndex;
             do {
-                next = missions[Math.floor(Math.random() * missions.length)];
-            } while (next === currentMission);
+                randomIndex = Math.floor(Math.random() * missions.length);
+            } while (usedMissions.includes(randomIndex));
             
-            currentMission = next;
+            usedMissions.push(randomIndex);
+            currentMission = missions[randomIndex];
             document.getElementById('mission-desc').innerText = currentMission.desc;
             document.getElementById('feedback').innerText = "";
-            document.getElementById('feedback').style.color = "#333";
+            document.getElementById('feedback').style.background = "transparent";
             document.querySelectorAll('.loading').forEach(b => b.style.width = "0%");
         }
 
@@ -102,16 +144,20 @@
             if(isBusy || !currentMission.target) return;
 
             if(type !== currentMission.target) {
-                document.getElementById('feedback').innerText = `❌ Incorreto! A ${type} não é usada para essa finalidade específica.`;
-                document.getElementById('feedback').style.color = "#d32f2f";
+                const fb = document.getElementById('feedback');
+                fb.innerText = `❌ INCORRETO! A ${type} não executa essa função. Analise o cenário novamente.`;
+                fb.style.color = "white";
+                fb.style.background = "#e74c3c";
                 return;
             }
 
             isBusy = true;
             let start = 0;
             const bar = document.getElementById(`l-${type}`);
-            document.getElementById('feedback').innerText = `Acessando ${type}...`;
-            document.getElementById('feedback').style.color = "#2980b9";
+            const fb = document.getElementById('feedback');
+            fb.innerText = `PROCESSANDO ACESSO À ${type.toUpperCase()}...`;
+            fb.style.color = "#2980b9";
+            fb.style.background = "rgba(41, 128, 185, 0.1)";
 
             const interval = setInterval(() => {
                 start += 100;
@@ -121,8 +167,9 @@
                     isBusy = false;
                     solved++;
                     document.getElementById('count').innerText = solved;
-                    document.getElementById('feedback').innerText = "✅ Correto! Você compreendeu a função deste nível.";
-                    document.getElementById('feedback').style.color = "#27ae60";
+                    fb.innerText = "✅ RESPOSTA CORRETA! DADO RECUPERADO.";
+                    fb.style.color = "white";
+                    fb.style.background = "#27ae60";
                 }
             }, 100);
         }
